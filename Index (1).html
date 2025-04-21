@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Recetas Saludables</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2d7a50">
+  <link rel="icon" href="icon-192x192.png">
+  <link rel="apple-touch-icon" href="icon-192x192.png">
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(to right, #e3ffe7, #d9e7ff);
+      margin: 0;
+      padding: 0;
+      color: #333;
+      overscroll-behavior: contain;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+
+    h1, h2, h3, h4 {
+      text-align: center;
+      color: #2d7a50;
+    }
+
+    .categoria {
+      margin-bottom: 40px;
+      background: #f9f9f9;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .categoria-header {
+      background: #2d7a50;
+      color: white;
+      padding: 15px;
+      text-align: center;
+    }
+
+    .recetas-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      padding: 20px;
+    }
+
+    .receta {
+      width: calc(50% - 20px);
+      margin-bottom: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    @media (max-width: 600px) {
+      .receta {
+        width: 100%;
+      }
+      
+      .container {
+        margin: 0;
+        border-radius: 0;
+      }
+    }
+
+    img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      margin-left: 20px;
+      padding-left: 0;
+    }
+
+    li {
+      margin-bottom: 5px;
+    }
+
+    button {
+      background: #2d7a50;
+      border: none;
+      color: white;
+      padding: 12px 15px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px auto;
+      display: block;
+      transition: background 0.3s ease;
+      font-size: 14px;
+    }
+
+    button:hover {
+      background: #1f593a;
+    }
+
+    .btn-whatsapp {
+      background: #25D366;
+    }
+
+    .btn-whatsapp:hover {
+      background: #128C7E;
+    }
+
+    .btn-paypal {
+      background: #009cde;
+      background: linear-gradient(to right, #009cde, #003087);
+    }
+
+    .btn-paypal:hover {
+      background: #0079ad;
+    }
+
+    .botones-receta {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .botones-receta button {
+      flex: 1;
+      margin: 5px 0;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      transition: border 0.3s;
+      font-family: 'Poppins', sans-serif;
+      font-size: 16px;
+    }
+
+    input:focus, textarea:focus, select:focus {
+      border-color: #2d7a50;
+      outline: none;
+    }
+
+    .section {
+      margin-top: 40px;
+      padding: 20px;
+      background: #f0f8f6;
+      border-radius: 15px;
+    }
+
+    .receta-personal {
+      margin-top: 20px;
+      background: #fff;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 0.9rem;
+      margin-top: 40px;
+      color: #777;
+    }
+
+    .pasos {
+      white-space: pre-line;
+      line-height: 1.6;
+    }
+
+    .botones-donacion {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 30px 0;
+    }
+
+    .botones-donacion a {
+      text-decoration: none;
+    }
+    
+    .navbar {
+      background-color: #2d7a50;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 15px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .navbar h1 {
+      margin: 0;
+      color: white;
+      font-size: 20px;
+    }
+    
+    .menu-button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+    }
+    
+    .offline-message {
+      background-color: #ff9800;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      display: none;
+    }
+    
+    .favoritas-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: #2d7a50;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      z-index: 90;
+    }
+    
+    .favoritas-btn span {
+      font-size: 30px;
+      color: white;
+    }
+    
+    .menu {
+      position: fixed;
+      top: 0;
+      left: -80%;
+      width: 80%;
+      height: 100%;
+      background: white;
+      z-index: 200;
+      box-shadow: 5px 0 15px rgba(0,0,0,0.1);
+      transition: left 0.3s ease;
+      overflow-y: auto;
+    }
+    
+    .menu.open {
+      left: 0;
+    }
+    
+    .menu-header {
+      background: #2d7a50;
+      color: white;
+      padding: 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .menu-close {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    
+    .menu-items {
+      padding: 15px;
+    }
+    
+    .menu-item {
+      display: block;
+      padding: 15px 10px;
+      border-bottom: 1px solid #eee;
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    .backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 199;
+      display: none;
+    }
+    
+    .backdrop.open {
+      display: block;
+    }
+    
+    .modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      width: 90%;
+      max-width: 400px;
+      z-index: 300;
+      display: none;
+    }
+    
+    .modal.open {
+      display: block;
+    }
+    
+    .modal-title {
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+    
+    .modal-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    
+    .modal-buttons button {
+      margin: 0;
+    }
+    
+    #favoritasContainer {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="offlineMessage" class="offline-message">Estás en modo sin conexión. Algunas funciones pueden no estar disponibles.</div>
+  
+  <div class="navbar">
+    <button id="menuBtn" class="menu-button">☰</button>
+    <h1>Recetas Saludables</h1>
+    <div style="width: 24px;"></div>
+  </div>
+  
+  <div id="menu" class="menu">
+    <div class="menu-header">
+      <h2 style="margin: 0;">Menú</h2>
+      <button id="menuClose" class="menu-close">✕</button>
+    </div>
+    <div class="menu-items">
+      <a href="#desayunosSection" class="menu-item" id="menuDesayunos">Desayunos</a>
+      <a href="#almuerzosSection" class="menu-item" id="menuAlmuerzos">Almuerzos</a>
+      <a href="#meriendasSection" class="menu-item" id="menuMeriendas">Meriendas</a>
+      <a href="#agregarReceta" class="menu-item" id="menuAgregar">Agregar Receta</a>
+      <a href="#" class="menu-item" id="menuFavoritas">Mis Favoritas</a>
+      <a href="#" class="menu-item" id="menuDonar">Donar</a>
+      <a href="#" class="menu-item" id="menuCompartir">Compartir App</a>
+    </div>
+  </div>
+  
+  <div id="backdrop" class="backdrop"></div>
+  
+  <div id="favoritasModal" class="modal">
+    <div class="modal-title">Mis Recetas Favoritas</div>
+    <div id="favoritasContainer"></div>
+    <div class="modal-buttons">
+      <button id="cerrarFavoritas">Cerrar</button>
+    </div>
+  </div>
+  
+  <div class="container">
+    <!-- Botones de donación y compartir -->
+    <div class="botones-donacion">
+      <a href="https://www.paypal.me/valerojesus" target="_blank">
+        <button class="btn-paypal">Donar con PayPal</button>
+      </a>
+      <a href="#" id="btnCompartir">
+        <button class="btn-whatsapp">Compartir por WhatsApp</button>
+      </a>
+    </div>
+    
+    <!-- Desayunos -->
+    <div class="categoria" id="desayunosSection">
+      <div class="categoria-header">
+        <h2>Desayunos Saludables</h2>
+      </div>
+      <div class="recetas-container" id="desayunos"></div>
+    </div>
+    
+    <!-- Almuerzos -->
+    <div class="categoria" id="almuerzosSection">
+      <div class="categoria-header">
+        <h2>Almuerzos Nutritivos</h2>
+      </div>
+      <div class="recetas-container" id="almuerzos"></div>
+    </div>
+    
+    <!-- Meriendas -->
+    <div class="categoria" id="meriendasSection">
+      <div class="categoria-header">
+        <h2>Meriendas Ligeras</h2>
+      </div>
+      <div class="recetas-container" id="meriendas"></div>
+    </div>
+
+    <div class="section" id="agregarReceta">
+      <h2>Agregar mi receta</h2>
+      <form id="formReceta">
+        <input type="text" id="titulo" placeholder="Título de la receta" required />
+        <select id="categoria" required>
+          <option value="">Selecciona categoría</option>
+          <option value="desayuno">Desayuno</option>
+          <option value="almuerzo">Almuerzo</option>
+          <option value="merienda">Merienda</option>
+        </select>
+        <textarea id="ingredientes" placeholder="Ingredientes (separados por coma)" required></textarea>
+        <textarea id="pasos" placeholder="Pasos detallados (separados por saltos de línea)" required></textarea>
+        <input type="url" id="imagen" placeholder="URL de imagen (debe ser una URL directa a la imagen)" required />
+        <button type="submit">Agregar receta</button>
+      </form>
+    </div>
+
+    <div class="footer">© 2025 Recetas Saludables | Creado con amor y ingredientes frescos</div>
+  </div>
+  
+  <button class="favoritas-btn" id="verFavoritas">
+    <span>★</span>
+  </button>
+
+  <script>
+    const recetas = {
+      desayuno: [
+        {
+          titulo: "Bowl de Avena con Frutas",
+          ingredientes: ["1/2 taza de avena", "1 taza de leche vegetal", "1 plátano", "1/2 taza de fresas", "1 cucharada de miel", "1 cucharada de semillas de chía"],
+          pasos: "1. Mezcla la avena con la leche vegetal y deja reposar 5 minutos.\n2. Corta las frutas en trozos pequeños.\n3. Sirve la avena en un bowl y añade las frutas por encima.\n4. Rocía con miel y espolvorea las semillas de chía.",
+          imagen: "https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          titulo: "Tostadas de Aguacate",
+          ingredientes: ["2 rebanadas de pan integral", "1 aguacate maduro", "1 huevo", "Sal y pimienta al gusto", "1 pizca de chile en polvo", "1 cucharada de semillas de sésamo"],
+          pasos: "1. Tuesta el pan integral.\n2. Machaca el aguacate y extiéndelo sobre las tostadas.\n3. Cocina el huevo al gusto (recomendado pochado).\n4. Coloca el huevo sobre las tostadas y sazona con sal, pimienta y chile.\n5. Espolvorea semillas de sésamo.",
+          imagen: "https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      almuerzo: [
+        {
+          titulo: "Ensalada de Quinoa y Vegetales",
+          ingredientes: ["1 taza de quinoa cocida", "1 pepino", "1 pimiento rojo", "1/2 taza de garbanzos cocidos", "1/4 taza de aceitunas", "2 cucharadas de aceite de oliva", "Jugo de 1 limón"],
+          pasos: "1. Cocina la quinoa según las instrucciones.\n2. Corta los vegetales en cubos pequeños.\n3. Mezcla todos los ingredientes en un tazón grande.\n4. Aliña con aceite de oliva, jugo de limón, sal y pimienta.\n5. Refrigera por 30 minutos antes de servir.",
+          imagen: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          titulo: "Salmón al Horno con Espárragos",
+          ingredientes: ["2 filetes de salmón", "1 manojo de espárragos", "2 cucharadas de aceite de oliva", "1 limón", "1 diente de ajo", "Sal y pimienta al gusto"],
+          pasos: "1. Precalienta el horno a 200°C.\n2. Coloca el salmón y los espárragos en una bandeja.\n3. Rocía con aceite de oliva y jugo de limón.\n4. Añade ajo picado, sal y pimienta.\n5. Hornea por 15-20 minutos hasta que el salmón esté cocido.",
+          imagen: "https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      merienda: [
+        {
+          titulo: "Smoothie de Frutos Rojos",
+          ingredientes: ["1 taza de frutos rojos mezclados", "1 plátano", "1 taza de yogur griego natural", "1/2 taza de leche de almendras", "1 cucharada de miel"],
+          pasos: "1. Coloca todos los ingredientes en la licuadora.\n2. Licua hasta obtener una mezcla suave y cremosa.\n3. Sirve inmediatamente en un vaso alto.\n4. Decora con algunos frutos rojos enteros.",
+          imagen: "https://images.unsplash.com/photo-1505576399279-565b52d4ac71?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          titulo: "Energéticos de Avena y Plátano",
+          ingredientes: ["2 plátanos maduros", "1 taza de avena", "1/4 taza de mantequilla de maní", "1 cucharada de semillas de chía", "1 cucharadita de canela"],
+          pasos: "1. Machaca los plátanos en un tazón.\n2. Mezcla con los demás ingredientes hasta formar una masa.\n3. Forma bolitas con las manos y colócalas en una bandeja.\n4. Refrigera por 1 hora antes de servir.",
+          imagen: "https://images.unsplash.com/photo-1592503469196-3a7880cc2d05?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        }
+      ]
+    };
+
+    function renderReceta(receta) {
+      return `
+        <div class="receta">
+          <h3>${receta.titulo}</h3>
+          <img src="${receta.imagen}" alt="${receta.titulo}" />
+          <h4>Ingredientes:</h4>
+          <ul>${receta.ingredientes.map(i => `<li>${i}</li>`).join("")}</ul>
+          <h4>Pasos:</h4>
+          <div class="pasos">${receta.pasos}</div>
+          <div class="botones-receta">
+            <button onclick="guardarFavorita(${JSON.stringify(receta).replace(/"/g, '&quot;')})">Guardar favorita</button>
+            <button class="btn-whatsapp" onclick="compartirWhatsApp('${receta.titulo}', '${receta.ingredientes.join('\n- ')}', '${receta.pasos.replace(/\n/g, '%0A')}')">Compartir</button>
+          </div>
+        </div>
+      `;
+    }
+
+    function cargarRecetas() {
+      document.getElementById('desayunos').innerHTML = recetas.desayuno.map(renderReceta).join('');
+      document.getElementById('almuerzos').innerHTML = recetas.almuerzo.map(renderReceta).join('');
+      document.getElementById('meriendas').innerHTML = recetas.merienda.map(renderReceta).join('');
+    }
+
+    function guardarFavorita(receta) {
+      let favoritas = JSON.parse(localStorage.getItem("favoritas")) || [];
+      if (!favoritas.some(r => r.titulo === receta.titulo)) {
+        favoritas.push(receta);
+        localStorage.setItem("favoritas", JSON.stringify(favoritas));
+        alert("¡Receta guardada en favoritos!");
+      } else {
+        alert("Esta receta ya está en tus favoritos");
+      }
+    }
+
+    function compartirWhatsApp(titulo, ingredientes, pasos) {
+      const texto = `*${titulo}*%0A%0A*Ingredientes:*%0A- ${ingredientes}%0A%0A*Pasos:*%0A${pasos}%0A%0A¡Mira más recetas saludables!`;
+      window.open(`https://wa.me/?text=${texto}`, '_blank');
+    }
+    
+    function mostrarFavoritas() {
+      const favoritas = JSON.parse(localStorage.getItem("favoritas")) || [];
+      const container = document.getElementById('favoritasContainer');
+      
+      if (favoritas.length === 0) {
+        container.innerHTML = '<p>No tienes recetas favoritas guardadas</p>';
+      } else {
+        container.innerHTML = favoritas.map(receta => `
+          <div class="receta-personal">
+            <h3>${receta.titulo}</h3>
+            <p><strong>Categoría:</strong> ${receta.categoria || 'No especificada'}</p>
+            <button onclick="eliminarFavorita('${receta.titulo}')">Eliminar de favoritos</button>
+            <button onclick="verDetalleFavorita(${JSON.stringify(receta).replace(/"/g, '&quot;')})">Ver detalle</button>
+          </div>
+        `).join('');
+      }
+      
+      document.getElementById('favoritasModal').classList.add('open');
+      document.getElementById('backdrop').classList.add('open');
+    }
+    
+    function eliminarFavorita(titulo) {
+      let favoritas = JSON.parse(localStorage.getItem("favoritas")) || [];
+      favoritas = favoritas.filter(r => r.titulo !== titulo);
+      localStorage.setItem("favoritas", JSON.stringify(favoritas));
+      mostrarFavoritas();
+    }
+    
+    function verDetalleFavorita(receta) {
+      // Cerrar modal de favoritas
+      document.getElementById('favoritasModal').classList.remove('open');
+      
+      // Crear un modal para mostrar detalle
+      const modal = document.createElement('div');
+      modal.classList.add('modal', 'open');
+      modal.innerHTML = `
+        <div class="modal-title">${receta.titulo}</div>
+        <img src="${receta.imagen}" alt="${receta.titulo}" />
+        <h4>Ingredientes:</h4>
+        <ul>${receta.ingredientes.map(i => `<li>${i}</li>`).join("")}</ul>
+        <h4>Pasos:</h4>
+        <div class="pasos">${receta.pasos}</div>
+        <div class="modal-buttons">
+          <button class="btn-whatsapp" onclick="compartirWhatsApp('${receta.titulo}', '${receta.ingredientes.join('\n- ')}', '${receta.pasos.replace(/\n/g, '%0A')}')">Compartir</button>
+          <button onclick="cerrarModalDetalle(this)">Cerrar</button>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+    }
+    
+    function cerrarModalDetalle(el) {
+      el.closest('.modal').remove();
+      document.getElementById('backdrop').classList.remove('open');
+    }
+    
+    // Funciones de menú
+    function toggleMenu() {
+      document.getElementById('menu').classList.toggle('open');
+      document.getElementById('backdrop').classList.toggle('open');
+    }
+    
+    // Configuración eventos de interfaz
+    function setupEventListeners() {
+      // Menú
+      document.getElementById('menuBtn').addEventListener('click', toggleMenu);
+      document.getElementById('menuClose').addEventListener('click', toggleMenu);
+      document.getElementById('backdrop').addEventListener('click', function() {
+        document.getElementById('menu').classList.remove('open');
+        document.getElementById('backdrop').classList.remove('open');
+        
+        // Cerrar cualquier modal abierto
+        const modals = document.querySelectorAll('.modal.open');
+        modals.forEach(modal => modal.classList.remove('open'));
+      });
+      
+      // Favoritas
+      document.getElementById('verFavoritas').addEventListener('click', mostrarFavoritas);
+      document.getElementById('menuFavoritas').addEventListener('click', function(e) {
+        e.preventDefault();
+        mostrarFavoritas();
+        toggleMenu();
+      });
+      document.getElementById('cerrarFavoritas').addEventListener('click', function() {
+        document.getElementById('favoritasModal').classList.remove('open');
+        document.getElementById('backdrop').classList.remove('open');
+      });
+      
+      // Navegación del menú
+      document.getElementById('menuDesayunos').addEventListener('click', function(e) {
+        toggleMenu();
+      });
+      document.getElementById('menuAlmuerzos').addEventListener('click', function(e) {
+        toggleMenu();
+      });
+      document.getElementById('menuMeriendas').addEventListener('click', function(e) {
+        toggleMenu();
+      });
+      document.getElementById('menuAgregar').addEventListener('click', function(e) {
+        toggleMenu();
+      });
+      
+      // Donar
+      document.getElementById('menuDonar').addEventListener('click', function(e) {
+        e.preventDefault();
+        window.open('https://www.paypal.me/valerojesus', '_blank');
+        toggleMenu();
+      });
+      
+      // Compartir
+      document.getElementById('menuCompartir').addEventListener('click', function(e) {
+        e.preventDefault();
+        compartirApp();
+        toggleMenu();
+      });
+      
+      // Configurar botón de compartir página completa
+      document.getElementById('btnCompartir').addEventListener('click', function(e) {
+        e.preventDefault();
+        compartirApp();
+      });
+    }
+    
+    function compartirApp() {
+      const texto = "¡Mira estas deliciosas recetas saludables! %0A%0AEcha un vistazo a esta colección de recetas para desayunos, almuerzos y meriendas saludables. %0A%0A¡Te van a encantar!";
+      window.open(`https://wa.me/?text=${texto}`, '_blank');
+    }
+
+    document.getElementById("formReceta").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const categoria = document.getElementById("categoria").value;
+      const nuevaReceta = {
+        titulo: document.getElementById("titulo").value,
+        ingredientes: document.getElementById("ingredientes").value.split(",").map(i => i.trim()),
+        pasos: document.getElementById("pasos").value,
+        imagen: document.getElementById("imagen").value,
+        categoria: categoria
+      };
+      
+      // Validar URL de imagen
+      if (!/\.(jpg|jpeg|png|webp|avif|gif|svg)$/.test(nuevaReceta.imagen.toLowerCase())) {
+        alert("Por favor ingresa una URL válida de imagen (jpg, png, gif, etc.)");
+        return;
+      }
+      
+      // Agregar a la categoría correspondiente
+      recetas[categoria].push(nuevaReceta);
+      cargarRecetas();
+      
+      this.reset();
+      alert("¡Receta agregada con éxito!");
+    });
+    
+    // Detectar estado offline
+    function checkOnlineStatus() {
+      const offlineMessage = document.getElementById('offlineMessage');
+      if (!navigator.onLine) {
+        offlineMessage.style.display = 'block';
+      } else {
+        offlineMessage.style.display = 'none';
+      }
+    }
+    
+    window.addEventListener('online', checkOnlineStatus);
+    window.addEventListener('offline', checkOnlineStatus);
+    
+    // Service Worker para PWA
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(function(registration) {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(function(err) {
+            console.log('ServiceWorker registration failed: ', err);
+          });
+      });
+    }
+
+    // Inicialización
+    document.addEventListener('DOMContentLoaded', function() {
+      cargarRecetas();
+      setupEventListeners();
+      checkOnlineStatus();
+    });
+  </script>
+</body>
+</html> 
